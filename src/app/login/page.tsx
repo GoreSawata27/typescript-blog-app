@@ -57,10 +57,12 @@ export default function Page() {
       localStorage.setItem("Email", res.data?.email);
 
       router.push("/dashboard");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toastError(error?.message || "Something went wrong");
+      }
       setLoading(false);
-      const errors = error.response?.data?.message || "Something went wrong";
-      toastError(errors);
+
       console.error("Error during signin:", error);
     }
   };
